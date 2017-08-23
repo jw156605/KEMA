@@ -1,4 +1,4 @@
-function [ALPHA,LAMBDA,options] = KMA(labeled,unlabeled,options)
+function [ALPHA,LAMBDA,K,options] = KMA(labeled,unlabeled,options)
 
 % Kernel manifold alignment
 %
@@ -44,7 +44,7 @@ if strcmp(options.kernelt,'rbf')
     if isfield(options,'sigma') == 0
         disp('estimating sigma from data of domain 1')
         for i = 1:options.numDomains
-            options.sigma{1,i} = 1*mean(pdist(labeled{1,i}.X'));
+            options.sigma{1,i} = 15*mean(pdist(labeled{1,i}.X'));
         end
     else size(options.sigma,2) < options.numDomains
         s = options.sigma;
@@ -73,11 +73,9 @@ if strcmp(options.kernelt,'pga')
     
 end
 
-if isfield(options.graph,'nn') == 0
+if isfield(options,'nn') == 0
     options.nn= 9;
     disp('Setting 9NN by default')
-else
-    options.nn= options.graph.nn;
 end
 
 if isfield(options,'mu') == 0
@@ -195,7 +193,7 @@ switch lower(options.kernelt)
         for i = 1:options.numDomains
             
             
-            eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma);',i,options.kernelt,i,i));
+            eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
             eval(sprintf('K = blkdiag(K,K%i);',i));
             
             
@@ -254,7 +252,8 @@ end
 %% Extract all features
 disp('Solve eigenproblem')
 
-[ALPHA LAMBDA] = gen_eig(KAK,KBK,'LM'); % options.projections
+[ALPHA LAMBDA] = gen_eig(KAK,KBK,'LM',options.projections); % options.projections
+%[ALPHA LAMBDA] = eigs(KAK,KBK,options.projections,0,'LM');
 
 if size(ALPHA,2) < options.projections
     options.projections = size(ALPHA,2);
