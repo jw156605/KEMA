@@ -73,8 +73,8 @@ switch lower(options.kernelt)
     case {'rbf','chi2','histlag'}
 
         for i = 1:options.numDomains
-            eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma);',i,options.kernelt,i,i));
-            eval(sprintf('KT%i = kernelmatrix(''%s'',X%i,XT%i,options.sigma);',i,options.kernelt,i,i));
+            eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
+            eval(sprintf('KT%i = kernelmatrix(''%s'',X%i,XT%i,options.sigma{1,i});',i,options.kernelt,i,i));
         end
         
     case {'pga'}
