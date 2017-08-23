@@ -12,6 +12,7 @@ else
     n_eig = min([rank(A) rank(B)]);
 end
 OPTS.disp = 0;
+%OPTS.tol= 1e-3;
 
 B = (B + B')/2;
 R = size(B,1);
@@ -39,8 +40,9 @@ else
         try
         [a,d] = eigs(inv_B*A,1,option,OPTS);
         catch err
-            n_eig = k;
-            return
+           display(err.message);
+		n_eig = k;
+           return
         end
         a = a ./ sqrt(a'*B*a);
         U2(:,k) = a;
