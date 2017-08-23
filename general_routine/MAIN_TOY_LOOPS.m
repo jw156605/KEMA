@@ -123,11 +123,12 @@ for dim = 1:modif.additDim
             XT1(2,:) = XT1(2,:).*linspace(1,factor,length(XT1));
             
         end
+
+	  save simulated_data.mat X1 X2 U1 U2 Y1 Y2 Y1U Y2U XT1 YT1 XT2 YT2
         
         Y = [Y1;Y1U;Y2;Y2U];
         YT = [YT1;YT2];
-        
-        
+
         [d1 n1] = size(X1);
         [d2 n2] = size(X2);
         
@@ -626,6 +627,8 @@ subplot(1,2,2)
  
 end
 
+print('plot1','-dpng');
+
 % PLOT 2: projected data
 figure
 % subplot(2,2,1)
@@ -653,6 +656,8 @@ subplot(2,2,4)
  title('Projected data (RBF, domains)'),grid on
  axis([-2.5 2.5 -2.5 2.5])
 
+print('plot2','-dpng');
+
  % PLOT 3: test error in first domain
 figure(300)
 semilogy(1:nVectLin,100-rlT1,'x-')
@@ -667,6 +672,8 @@ ylabel('Error rate')
 title('Test, 1st domain')
 grid on
 axis([0 nVectRBF 0 100])
+
+print('plot3','-dpng');
 
 % PLOT 3: test error in second domain
 
@@ -683,5 +690,7 @@ ylabel('Error rate')
 title(['Test, 2nd domain'])
 grid on
 axis([0 nVectRBF 0 100])
+
+print('plot4','-dpng');
 
 pause
