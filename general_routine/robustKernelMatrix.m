@@ -21,8 +21,7 @@
 
 function K = robustKernelMatrix(ker,X,X2,sigma,b)
 
-[X_ica] = fastica(X','numOfIC',30);
-X_ica = X_ica';
+[X_ica] = fastica(X,'numOfIC',30);
 
 switch ker
     case 'lin'
