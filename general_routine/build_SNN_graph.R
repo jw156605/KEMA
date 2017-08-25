@@ -60,18 +60,19 @@ CalcSNNSparse <- function(
 }
 
 args = commandArgs(trailingOnly=TRUE)
-file_in = args[1]
-file_out = args[2]
+file_in   = args[1]
+file_out  = args[2]
+num_ICs   = args[3]
+k.param   = args[4]
+k.scale   = args[5]
+prune.SNN = args[6]
+
 print("Reading data...")
 cell.data = read.csv(file_in,header=FALSE)
 
 print("Performing ICA...")
 #icafast wants cells in rows and genes in columns
-data.use = icafast(t(cell.data),nc=30,center=F)$S
-
-k.param = 10
-k.scale = 10
-prune.SNN = 1/15
+data.use = icafast(t(cell.data),nc=num_ICs,center=F)$S
 
 n.cells <- nrow(x = data.use)
 my.knn <- get.knn(
