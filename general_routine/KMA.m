@@ -110,8 +110,8 @@ end
 W = [];
 
 for i = 1:options.numDomains
-    eval(sprintf('G%i = buildKNNGraph(X%i'',options.nn,1);',i,i));
-    
+    %eval(sprintf('G%i = buildKNNGraph(X%i'',options.nn,1);',i,i));
+    eval(sprintf('G%i = buildSNNGraph(X%i,10,10,1/15);',i,i));
     eval(sprintf('W = blkdiag(W,G%i);',i));
     
 end

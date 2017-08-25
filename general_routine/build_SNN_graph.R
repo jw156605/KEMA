@@ -90,5 +90,8 @@ w = CalcSNNSparse(
   print.output = T
 )
 
+#Force w to be symmetric (equivalent to making an undirected graph)
+w = ((w+t(w))/2)
+
 #Save in matrix market format
 writeMM(w,file_out)
