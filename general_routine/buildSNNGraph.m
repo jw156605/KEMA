@@ -19,7 +19,7 @@
 %  
 %-------------------------------------------------------------------
 
-function G = buildSNNGraph(data,k_param,k_scale,prune_snn)
+function G = buildSNNGraph(data,num_ICs,k_param,k_scale,prune_snn)
 
 csvwrite('temp.csv',data);
 [res] = system(sprintf('Rscript /broad/macosko/jwelch/CellIntegration/KEMA/general_routine/build_SNN_graph.R temp.csv graph.mm %i %i %i %f',num_ICs,k_param,k_scale,prune_snn),'-echo');
