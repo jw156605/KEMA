@@ -176,11 +176,9 @@ switch lower(options.kernelt)
         K = [];
         
         for i = 1:options.numDomains
-            
-            eval(sprintf('K%i = [X%i]''*[X%i];',i,i,i));
-            eval(sprintf('K = blkdiag(K,K%i);',i));
-            
-            
+        	 eval(sprintf('K%i = robustKernelMatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
+            %eval(sprintf('K%i = [X%i]''*[X%i];',i,i,i));
+            eval(sprintf('K = blkdiag(K,K%i);',i));    
         end
         
         KAK = K*A*K;% +lambda*eye(size(Ls));
@@ -192,8 +190,8 @@ switch lower(options.kernelt)
         
         for i = 1:options.numDomains
             
-            
-            eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
+            eval(sprintf('K%i = robustKernelMatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
+            %eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
             eval(sprintf('K = blkdiag(K,K%i);',i));
             
             
