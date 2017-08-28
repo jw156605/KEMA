@@ -79,7 +79,7 @@ if isfield(options,'nn') == 0
 end
 
 if isfield(options,'mu') == 0
-    options.mu= 0.5;
+    options.mu= 0.01;
     disp('Setting mu=0.5 by default')
 end
 
