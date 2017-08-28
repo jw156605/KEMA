@@ -111,7 +111,7 @@ W = [];
 
 for i = 1:options.numDomains
     %eval(sprintf('G%i = buildKNNGraph(X%i'',options.nn,1);',i,i));
-    eval(sprintf('G%i = buildSNNGraph(X%i,30,5,10,1/15);',i,i));
+    eval(sprintf('[G%i,ICA%i] = buildSNNGraph(X%i,30,5,10,1/15);',i,i,i));
     eval(sprintf('W = blkdiag(W,G%i);',i));
     
 end
@@ -176,8 +176,8 @@ switch lower(options.kernelt)
         K = [];
         
         for i = 1:options.numDomains
-        	 eval(sprintf('K%i = robustKernelMatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
-            %eval(sprintf('K%i = [X%i]''*[X%i];',i,i,i));
+        	 %eval(sprintf('K%i = robustKernelMatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
+            %eval(sprintf('K%i = [ICA%i]''*[ICA%i];',i,i,i));
             eval(sprintf('K = blkdiag(K,K%i);',i));    
         end
         
@@ -190,8 +190,8 @@ switch lower(options.kernelt)
         
         for i = 1:options.numDomains
             
-            eval(sprintf('K%i = robustKernelMatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
-            %eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
+            %eval(sprintf('K%i = robustKernelMatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
+            eval(sprintf('K%i = kernelmatrix(''%s'',ICA%i,ICA%i,options.sigma{1,i});',i,options.kernelt,i,i));
             eval(sprintf('K = blkdiag(K,K%i);',i));
             
             
@@ -211,7 +211,7 @@ switch lower(options.kernelt)
         for i = 1:options.numDomains
             
             
-            eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma{1,i},options.b);',i,options.kernelt,i,i));
+            eval(sprintf('K%i = kernelmatrix(''%s'',ICA%i,ICA%i,options.sigma{1,i},options.b);',i,options.kernelt,i,i));
             eval(sprintf('K = blkdiag(K,K%i);',i));
             
             
@@ -229,7 +229,7 @@ switch lower(options.kernelt)
         for i = 1:options.numDomains
             
             
-            eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i);',i,options.kernelt,i,i));
+            eval(sprintf('K%i = kernelmatrix(''%s'',ICA%i,ICA%i);',i,options.kernelt,i,i));
             eval(sprintf('K = blkdiag(K,K%i);',i));
             
             
@@ -261,10 +261,6 @@ end
 
 [LAMBDA j] = sort(diag(LAMBDA));
 ALPHA = ALPHA(:,j);
-
-
-
-
 
 %% check if any eigenvector inversion is needed.
 disp('Check for vector inversion')

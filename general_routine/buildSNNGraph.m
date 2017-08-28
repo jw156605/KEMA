@@ -1,7 +1,7 @@
 %-------------------------------------------------------------------
 % Build a shared nearest neighbor graph
 %
-% G = buildSNNGraph(data,num_ICs,k_param,k_scale,prune_snn);
+% [G,ICA] = buildSNNGraph(data,num_ICs,k_param,k_scale,prune_snn);
 %
 % Input:
 %    - data     :      the input data matrix
@@ -12,6 +12,7 @@
 %
 % Output:
 %    - G    :      the graph
+%    - ICA  :      ICA projection used to compute the SNN graph
 %
 % Joshua Welch
 % 
@@ -22,8 +23,9 @@
 function G = buildSNNGraph(data,num_ICs,k_param,k_scale,prune_snn)
 
 csvwrite('temp.csv',data);
-[res] = system(sprintf('Rscript /broad/macosko/jwelch/CellIntegration/KEMA/general_routine/build_SNN_graph.R temp.csv graph.mm %i %i %i %f',num_ICs,k_param,k_scale,prune_snn),'-echo');
+[res] = system(sprintf('Rscript /broad/macosko/jwelch/CellIntegration/KEMA/general_routine/build_SNN_graph.R temp.csv graph.mm ica.mm %i %i %i %f',num_ICs,k_param,k_scale,prune_snn),'-echo');
 [G] = mmread('graph.mm');
-[res] = system('rm temp.csv graph.mm');
+[ICA] = mmread('ica.mm');
+[res] = system('rm temp.csv graph.mm ica.mm');
 
 end
