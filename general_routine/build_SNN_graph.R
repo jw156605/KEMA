@@ -61,11 +61,12 @@ CalcSNNSparse <- function(
 
 args = commandArgs(trailingOnly=TRUE)
 file_in   = args[1]
-file_out  = args[2]
-num_ICs   = as.numeric(args[3])
-k.param   = as.numeric(args[4])
-k.scale   = as.numeric(args[5])
-prune.SNN = as.numeric(args[6])
+file_out1 = args[2]
+file_out2 = args[3]
+num_ICs   = as.numeric(args[4])
+k.param   = as.numeric(args[5])
+k.scale   = as.numeric(args[6])
+prune.SNN = as.numeric(args[7])
 
 print("Reading data...")
 cell.data = read.csv(file_in,header=FALSE)
@@ -91,8 +92,9 @@ w = CalcSNNSparse(
   print.output = T
 )
 
-#Force w to be symmetric (equivalent to making an undirected graph)
+#Force w to be symmetric (making it an undirected graph)
 w = ((w+t(w))/2)
 
 #Save in matrix market format
-writeMM(w,file_out)
+writeMM(w,file_out1)
+writeMM(data.use,file_out2)
