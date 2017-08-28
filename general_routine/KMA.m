@@ -79,7 +79,7 @@ if isfield(options,'nn') == 0
 end
 
 if isfield(options,'mu') == 0
-    options.mu= 0.01;
+    options.mu= 0.5;
     disp('Setting mu=0.5 by default')
 end
 
@@ -177,7 +177,7 @@ switch lower(options.kernelt)
         
         for i = 1:options.numDomains
         	 %eval(sprintf('K%i = robustKernelMatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
-            %eval(sprintf('K%i = [ICA%i]''*[ICA%i];',i,i,i));
+            eval(sprintf('K%i = [ICA%i]''*[ICA%i];',i,i,i));
             eval(sprintf('K = blkdiag(K,K%i);',i));    
         end
         

@@ -97,4 +97,4 @@ w = ((w+t(w))/2)
 
 #Save in matrix market format
 writeMM(w,file_out1)
-writeMM(data.use,file_out2)
+write.csv(data.use,file_out2)
