@@ -6,17 +6,22 @@ function [U D,n_eig] = gen_eig(A,B,option,n_eig)
 % option = 'LM' or 'SM'
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+rankA = rank(A);
+rankB = rank(B);
+
 if (nargin==4)
-    n_eig = min([n_eig rank(A) rank(B)]);
+    %n_eig = min([n_eig 14])
+    n_eig = min([n_eig rankA rankB]);
 else
-    n_eig = min([rank(A) rank(B)]);
+    %n_eig = 14
+    n_eig = min([rankA rankB]);
 end
 OPTS.disp = 0;
 %OPTS.tol= 1e-3;
 
 B = (B + B')/2;
 R = size(B,1);
-rango = rank(B);
+rango = rankB;
 if (rango == R)
     U = zeros(R,n_eig);
     D = zeros(n_eig,n_eig);
@@ -29,7 +34,7 @@ if (rango == R)
         A = A - d * (B * a) * (a' * B);
     end
 else
-%     rango = max(rango,sum(eig(B)>0) - 5);
+    %rango = max(rango,sum(eig(B)>0) - 5);
     [v,d] = eigs(B,rango);
     B = v'*B*v;
     A = v'*A*v;

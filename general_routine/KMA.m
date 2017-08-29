@@ -191,7 +191,8 @@ switch lower(options.kernelt)
         for i = 1:options.numDomains
             
             %eval(sprintf('K%i = robustKernelMatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
-            eval(sprintf('K%i = kernelmatrix(''%s'',ICA%i,ICA%i,options.sigma{1,i});',i,options.kernelt,i,i));
+            %eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
+	    eval(sprintf('K%i = kernelmatrix(''%s'',ICA%i,ICA%i,options.sigma{1,i});',i,options.kernelt,i,i));
             eval(sprintf('K = blkdiag(K,K%i);',i));
             
             
@@ -365,8 +366,8 @@ for d = 2:options.numDomains
 end
 
 
-
-nVect = min(500,rank(KBK));
-options.nVect =  min(nVect,rank(KAK));
+options.nVect = size(ALPHA,2);
+%nVect = min(500,rank(KBK));options.nVect = size(ALPHA,2);
+%options.nVect =  min(nVect,rank(KAK));
 
 fprintf('... done.\n')
