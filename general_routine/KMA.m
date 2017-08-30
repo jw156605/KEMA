@@ -1,4 +1,4 @@
-function [ALPHA,LAMBDA,K,options] = KMA(labeled,unlabeled,options)
+function [ALPHA,LAMBDA,K1,K2,options] = KMA(labeled,unlabeled,options)
 
 % Kernel manifold alignment
 %

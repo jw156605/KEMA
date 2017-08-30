@@ -1,4 +1,4 @@
-function [proj] = KMAproject(labeled,unlabeled,test,ALPHA,options)
+function [proj] = KMAproject(labeled,unlabeled,test,ALPHA,K1,K2,options)
 
 
 % Kernel manifold alignment
@@ -73,7 +73,7 @@ switch lower(options.kernelt)
     case {'rbf','chi2','histlag'}
 
         for i = 1:options.numDomains
-            eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
+            %eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
             eval(sprintf('KT%i = kernelmatrix(''%s'',X%i,XT%i,options.sigma{1,i});',i,options.kernelt,i,i));
         end
         
