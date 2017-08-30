@@ -138,7 +138,7 @@ for i = 1:numClasses
 			Ws(i_inds,j_inds) = Ws(i_inds,i_inds)/(num_i*num_j);
 		else
 			Wd(i_inds,j_inds) = Wd(i_inds,j_inds)/(num_i*num_j);
-			Wd(j_inds,i_inds) = Wd(i_inds,j_inds)/(num_i*num_j);
+			Wd(j_inds,i_inds) = Wd(j_inds,i_inds)/(num_i*num_j);
 		end
 	end
 end
