@@ -126,6 +126,22 @@ Wd = repmat(Y,1,length(Y)) ~= repmat(Y,1,length(Y))'; Wd(Y == 0,:) = 0; Wd(:,Y =
 Ws = Ws + eye(size(Ws,1));
 Wd = Wd + eye(size(Wd,1));
 
+% Normalize Ws and Wd to account for class size imbalances
+numClasses = size(unique(Y),1);
+for i = 1:numClasses
+	for j = 1:i
+		i_inds = (Y==i);
+		j_inds = (Y==j);
+		num_i = sum(i_inds);
+		num_j = sum(j_inds);
+		if (i == j)
+			Ws(i_inds,j_inds) = Ws(i_inds,i_inds)/(num_i*num_j);
+		else
+			Wd(i_inds,j_inds) = Wd(i_inds,j_inds)/(num_i*num_j);
+			Wd(j_inds,i_inds) = Wd(i_inds,j_inds)/(num_i*num_j);
+		end
+	end
+end
 
  Sws = sum(sum(Ws));
  Sw = sum(sum(W));
