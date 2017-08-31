@@ -21,11 +21,21 @@
 
 function K = robustKernelMatrix(ker,X,X2,sigma,b)
 
-[X_ica] = fastica(X,'numOfIC',30);
-
 if exist('X2','var');
-	[X2_ica] = fastica(X2,'numOfIC',30);
+	csvwrite('temp.csv',horzcat(X,X2));
+	system('Rscript /broad/macosko/jwelch/CellIntegration/KEMA/general_routine/ica.R temp.csv ica.mm 30','-echo');
+	[ica] = csvread('ica.mm',1,1);
+	ica = ica';
+	n1 = size(X,2);
+	n2 = size(X2,2);
+	X_ica = ica(:,1:n1);
+	X2_ica = ica(:,(n1+1):(n1+n2));
 else
+	csvwrite('temp.csv',X);
+	system('Rscript /broad/macosko/jwelch/CellIntegration/KEMA/general_routine/ica.R temp.csv ica.mm 30','-echo');
+	[ica] = csvread('ica.mm');
+	ica = ica';
+	X_ica = fastica(X,'numOfIC',30);
 	X2_ica = X_ica;
 end
 
