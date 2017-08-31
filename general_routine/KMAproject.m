@@ -74,7 +74,7 @@ switch lower(options.kernelt)
 
         for i = 1:options.numDomains
             %eval(sprintf('K%i = kernelmatrix(''%s'',X%i,X%i,options.sigma{1,i});',i,options.kernelt,i,i));
-            eval(sprintf('KT%i = kernelmatrix(''%s'',X%i,XT%i,options.sigma{1,i});',i,options.kernelt,i,i));
+            eval(sprintf('KT%i = robustKernelMatrix(''%s'',X%i,XT%i,options.sigma{1,i});',i,options.kernelt,i,i));
         end
         
     case {'pga'}
