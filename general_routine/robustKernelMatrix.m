@@ -23,12 +23,18 @@ function K = robustKernelMatrix(ker,X,X2,sigma,b)
 
 [X_ica] = fastica(X,'numOfIC',30);
 
+if exist('X2','var');
+	[X2_ica] = fastica(X2,'numOfIC',30);
+else
+	X2_ica = X_ica;
+end
+
 switch ker
     case 'lin'
-          K = X_ica' * X_ica;
+          K = X_ica' * X2_ica;
 
     case 'poly'
-          K = (X_ica' * X_ica + b).^d;
+          K = (X_ica' * X2_ica + b).^d;
 
     case 'rbf'
         if size(X_ica,1) == 1
@@ -38,7 +44,17 @@ switch ker
         end
         n1 = size(X_ica,2);
 
-        D = (ones(n1,1)*n1sq)' + ones(n1,1)*n1sq -2*X_ica'*X_ica;
+        if exist('X2','var');
+            if size(X2_ica,1) == 1
+                n2sq = X2_ica.^2;
+            else
+              n2sq = sum(X2_ica.^2);
+            end
+            n2 = size(X2_ica,2);
+            D = (ones(n2,1)*n1sq)' + ones(n1,1)*n2sq -2*X_ica'*X2_ica;
+        else
+            D = (ones(n1,1)*n1sq)' + ones(n1,1)*n1sq -2*X_ica'*X_ica;
+        end
         K = exp(-D/(2*sigma^2));
         
     otherwise
